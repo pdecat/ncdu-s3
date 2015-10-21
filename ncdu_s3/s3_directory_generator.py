@@ -16,6 +16,10 @@ class S3DirectoryGenerator(object):
         try:
             client = boto3.client('s3')
             region = client.get_bucket_location(Bucket=self.bucket_name)['LocationConstraint']
+            if region == 'EU':
+                # for the eu-west-1 region, location constraint may either be 'EU' or 'eu-west-1'
+                # http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
+                region = 'eu-west-1'
         except:
             region=None
 
